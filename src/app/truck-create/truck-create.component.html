@@ -1,0 +1,48 @@
+<div class="container" style="background-color: rgba(255, 0, 0, 0.1)">
+  <h1>{{ title }}</h1>
+  <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-3 mb-3">
+        <label class="form-label">Truck Name</label>
+        <input
+          type="text"
+          formControlName="name"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f['name'].errors }"
+        />
+        <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+          <div *ngIf="f['name'].errors['required']">Truck Name is required</div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3 mb-3">
+        <label class="form-label">Number</label>
+        <input
+          type="text"
+          formControlName="number"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f['number'].errors }"
+        />
+        <div *ngIf="submitted && f['number'].errors" class="invalid-feedback">
+          <div *ngIf="f['number'].errors['required']">
+            Truck Number is required
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <button [disabled]="loading" class="btn btn-primary">
+        <span
+          *ngIf="submitting"
+          class="spinner-border spinner-border-sm me-1"
+        ></span>
+        Save
+      </button>
+      <a routerLink="" class="btn btn-link">Cancel</a>
+    </div>
+  </form>
+  <div *ngIf="loading" class="text-center m-5">
+    <span class="spinner-border spinner-border-lg align-center"></span>
+  </div>
+</div>

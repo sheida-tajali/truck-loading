@@ -1,0 +1,156 @@
+<div class="container" style="background-color: rgba(255, 0, 0, 0.1)">
+  <!-- Trucks -->
+  <div class="row">
+    <nav class="navbar navbar-light bg-primary">
+      <div class="container-fluid">
+        <h1 style="color: aliceblue">Trucks</h1>
+        <div class="d-flux">
+          <a routerLink="add" class="btn btn-sm btn-success mb-2">Add Truck</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="overflow-auto" style="max-height: 200px">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">TruckID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Number</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let truck of trucks">
+            <td scope="col">{{ truck.truckID }}</td>
+            <td scope="col">{{ truck.name }}</td>
+            <td scope="col">{{ truck.number }}</td>
+            <td scope="col">{{ truck.status }}</td>
+            <td scope="col">
+              <button
+                type="button"
+                class="btn btn-success"
+                routerLink="edit/{{ truck.truckID }}"
+              >
+                <i class="fa fa-edit"></i>
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger mx-3"
+                (click)="selectTruck(truck.truckID)"
+              >
+                <i class="fa fa-ship"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Boxes -->
+  <div class="row">
+    <nav class="navbar navbar-light bg-primary">
+      <div class="container-fluid">
+        <h1 style="color: aliceblue">Boxes</h1>
+        <button
+          *ngIf="selectedTruck?.status == 'C'"
+          class="btn btn-success"
+          (click)="openTruck(selectedTruckId)"
+        >
+          Open
+          <i class="fa fa-folder-open"></i>
+        </button>
+        <button
+          *ngIf="selectedTruck?.status == 'O' && canClose"
+          class="btn btn-danger"
+          (click)="closeTruck(selectedTruckId)"
+        >
+          Close
+          <i class="fa fa-close"></i>
+        </button>
+        <div class="d-flux">
+          <span *ngIf="selectedTruck" class="align-center">
+            <h1 style="color: aliceblue">{{ selectedTruck.name }}</h1>
+          </span>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <div class="row">
+    <div class="col-5 text-center">Inventory</div>
+    <div class="col-2 text-center"></div>
+    <div class="col-5 text-center">Assigned</div>
+  </div>
+  <div class="row" *ngIf="selectedTruck">
+    <div class="col-5">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">BOX ID</th>
+            <th scope="col">PLU</th>
+            <th scope="col">Number</th>
+            <th scope="col">Weight</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let box of boxes">
+            <ng-container *ngIf="box.truckID == 0">
+              <td scope="col">{{ box.truckID }}</td>
+              <td scope="col">{{ box.plu }}</td>
+              <td scope="col">{{ box.number }}</td>
+              <td scope="col">{{ box.weight }}</td>
+              <td scope="col">
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  (click)="assignBox(box.boxID)"
+                >
+                  <i class="fa fa-plus"></i>
+                </button>
+              </td>
+            </ng-container>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-2">
+      <div class="row"></div>
+      <div class="row"></div>
+    </div>
+    <div class="col-5">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">BOX ID</th>
+            <th scope="col">PLU</th>
+            <th scope="col">Number</th>
+            <th scope="col">Weight</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let box of boxes">
+            <ng-container *ngIf="box.truckID == selectedTruckId">
+              <td scope="col">{{ box.truckID }}</td>
+              <td scope="col">{{ box.plu }}</td>
+              <td scope="col">{{ box.number }}</td>
+              <td scope="col">{{ box.weight }}</td>
+              <td scope="col">
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  (click)="removeBox(box.boxID)"
+                >
+                  <i class="fa fa-trash"></i>
+                </button>
+              </td>
+            </ng-container>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
